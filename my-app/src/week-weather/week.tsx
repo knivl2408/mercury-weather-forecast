@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import './week.scss';
 import cloud from '.././images/default_img.png';
+import right_arrow from '.././images/icon1.png';
+import left_arrow from '.././images/icon.png';
 
 export const Week: React.FC = () => {
 	interface state {
 		degree: number[] | undefined | null;
 		date: string[] | undefined | null;
-		photo: number[] | undefined | null;
+		photo: string[] | undefined | null;
 	}
 
 	// the key from openweather
@@ -28,15 +30,6 @@ export const Week: React.FC = () => {
 		photo: [],
 	});
 
-	// if (
-	// 	dataWeather.degree != undefined &&
-	// 	dataWeather.degree != null &&
-	// 	dataWeather.degree?.length > 0
-	// ) {
-	// 	console.log('dfmvm');
-	// 	console.log(dataWeather);
-	// }
-
 	//getting data from openweathermap
 	const gettingWeather = async (lat: number, lon: number) => {
 		const apiUrl =
@@ -44,11 +37,10 @@ export const Week: React.FC = () => {
 	`);
 		const weather = await apiUrl.json();
 		console.log(weather);
-
 		var day: number = 0;
 		var dates: any[] = [];
 		var degrees: number[] = [];
-		var photos: number[] = [];
+		var photos: string[] = [];
 		const moment = require('moment');
 
 		while (day < 7) {
@@ -56,11 +48,13 @@ export const Week: React.FC = () => {
 			var dt = dat.toISOString();
 			dates.push(moment(dt).format('LL'));
 			degrees.push(Math.round(weather.daily[day].temp.day));
-			photos.push(weather.daily[day].weather[0].id);
+			photos.push(weather.daily[day].weather[0].icon);
 			day++;
 		}
 		setdataWeather({ date: dates, degree: degrees, photo: photos });
-		return { dates, degrees };
+		console.log('dkdk');
+		console.log(dataWeather);
+		return { dates, degrees, photos };
 	};
 
 	// check input empty or not
@@ -69,7 +63,7 @@ export const Week: React.FC = () => {
 			return (
 				document
 					.getElementById('city')
-					?.setAttribute('value', 'city is not selected'),
+					?.setAttribute('placeholder', 'city is not selected'),
 				document
 					.getElementById('city')
 					?.setAttribute('class', 'validation week_input')
@@ -79,6 +73,15 @@ export const Week: React.FC = () => {
 				document
 					.getElementById('city')
 					?.setAttribute('class', ' week_input');
+				document
+					.getElementById('cloud')
+					?.setAttribute('class', 'close');
+				document
+					.getElementById('week_text')
+					?.setAttribute('class', 'close');
+				document
+					.getElementById('weather_cards')
+					?.setAttribute('class', 'open');
 			}
 		}
 	};
@@ -91,14 +94,31 @@ export const Week: React.FC = () => {
 	};
 
 	// put date, photo, temperature to card
-	const getDate = (dataWeather: any, id: number) => {
+	const getWeather = (dataWeather: any, id: number) => {
 		if (dataWeather.date != undefined)
 			return (
-				<div>
-					<div>{dataWeather.date[id]}</div>
-					<div>{dataWeather.degree[id]}</div>
+				<div className="week_weather_card_data">
+					<div className="week_weather_card_data_date">
+						{dataWeather.date[id]}
+					</div>
+					<div className="week_weather_card_data_photo">
+						<img
+							src={`https://api.openweathermap.org/img/w/${dataWeather.photo[id]}.png`}
+							// className="week_weather_card_data_photo"
+						/>
+					</div>
+					<div className="week_weather_card_data_temperature">
+						{dataWeather.degree[id]}°
+					</div>
 				</div>
 			);
+	};
+
+	const MoveRight = () => {
+		return document.getElementById('week')?.scrollBy(150, 0);
+	};
+	const MoveLeft = () => {
+		return document.getElementById('week')?.scrollBy(-150, 0);
 	};
 
 	return (
@@ -126,7 +146,6 @@ export const Week: React.FC = () => {
 							changeCity('Samara'),
 							gettingWeather(lat[0], lon[0]),
 							Validation()
-							// getDate(dataWeather, 1)
 						)}
 					>
 						Samara
@@ -178,37 +197,52 @@ export const Week: React.FC = () => {
 				</div>
 			</div>
 
-			<div className="week_cloud">
-				{/* <img src={cloud} alt="cloud" /> */}
-				<div>
-					<div className="week_cards_left_arrow"></div>
-					<div className="week_weather_cards">
+			<div>
+				<img src={cloud} alt="cloud" id="cloud" />
+				<div className="close" id="weather_cards">
+					<div className="week_weather_cards_left_arrow">
+						<img
+							src={left_arrow}
+							alt="<"
+							className="week_weather_cards_left_arrow"
+							onClick={() => MoveLeft()}
+						/>
+					</div>
+					<div className="week_weather_cards" id="week">
 						<div className="week_weather_card" id="1">
-							{getDate(dataWeather, 1)}
+							{getWeather(dataWeather, 0)}
 						</div>
 						<div className="week_weather_card" id="2">
-							{getDate(dataWeather, 2)}
+							{getWeather(dataWeather, 1)}
 						</div>
 						<div className="week_weather_card" id="3">
-							{getDate(dataWeather, 3)}
+							{getWeather(dataWeather, 2)}
 						</div>
 						<div className="week_weather_card" id="4">
-							{getDate(dataWeather, 4)}
+							{getWeather(dataWeather, 3)}
 						</div>
 						<div className="week_weather_card" id="5">
-							{getDate(dataWeather, 5)}
+							{getWeather(dataWeather, 4)}
 						</div>
 						<div className="week_weather_card" id="6">
-							{getDate(dataWeather, 6)}
+							{getWeather(dataWeather, 5)}
 						</div>
 						<div className="week_weather_card" id="7">
-							{getDate(dataWeather, 7)}
+							{getWeather(dataWeather, 6)}
 						</div>
+						<div className="week_weather_card_margin"></div>
 					</div>
-					<div className="week_cards_right_arrow"></div>
+					<div>
+						<img
+							src={right_arrow}
+							alt=">"
+							className="week_weather_cards_right_arrow"
+							onClick={() => MoveRight()}
+						/>
+					</div>
 				</div>
 			</div>
-			<div className="week_text">
+			<div className="week_text" id="week_text">
 				Fill in all the fields and the weather will be displayed
 			</div>
 		</div>

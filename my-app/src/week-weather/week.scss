@@ -1,3 +1,9 @@
+.close {
+	display: none;
+}
+.open {
+	display: block;
+}
 input {
 	background: rgba(128, 131, 164, 0.06);
 	border-radius: 8px;
@@ -22,11 +28,81 @@ input:focus {
 input:visited {
 	text-decoration: #2c2d76;
 }
-.validation {
+.validation::placeholder {
 	color: red;
 }
 
 .week {
+	&_weather {
+		&_cards::-webkit-scrollbar {
+			display: none;
+		}
+		&_cards {
+			position: relative;
+			z-index: 15;
+			display: flex;
+			flex-direction: row;
+			box-sizing: border-box;
+			max-width: 41vw;
+			overflow: auto;
+			padding-right: 2vw;
+			scroll-behavior: smooth;
+			&_right_arrow {
+				z-index: 200;
+				position: relative;
+				cursor: pointer;
+			}
+			&_left_arrow {
+				z-index: 200;
+				position: relative;
+				cursor: pointer;
+			}
+		}
+		&_card {
+			background-color: #373af5;
+
+			box-shadow: 0px 4px 4px rgba(4, 5, 73, 0.25),
+				14px 14px 20px rgba(5, 6, 114, 0.2);
+			border-radius: 8px;
+			margin-bottom: 3.5vh;
+			display: flex;
+			height: 100%;
+			flex-shrink: 0;
+			&_margin {
+				width: 1vw;
+				height: 4vw;
+				box-sizing: border-box;
+				flex-shrink: 0;
+			}
+			&_data {
+				display: flex;
+				height: 100%;
+				flex-shrink: 1;
+				flex-direction: column;
+				justify-content: space-around;
+				align-items: center;
+				width: 100%;
+				&_date {
+					align-self: flex-start;
+					margin-left: 1vw;
+				}
+				&_photo {
+					align-self: center;
+				}
+				&_photo img {
+					width: 100px;
+					height: 100px;
+				}
+				&_temperature {
+					align-self: flex-end;
+					margin-right: 1vw;
+					font-weight: bold;
+					font-size: 32px;
+					line-height: 32px;
+				}
+			}
+		}
+	}
 	&_container {
 		width: 45vw;
 		height: 50vh;
@@ -72,11 +148,9 @@ input:visited {
 		height: 100vh;
 		z-index: 20;
 		.week_city_list_container {
-			position: absolute;
 			background-color: #f8f8fa;
 			border-radius: 8px;
 			border: 2px solid rgba(128, 131, 164, 0.2);
-			top: 42vh;
 			box-sizing: border-box;
 		}
 	}
@@ -102,6 +176,24 @@ input:visited {
 		background: rgba(128, 131, 164, 0.06);
 		cursor: pointer;
 	}
+	&_weather {
+		&_cards {
+			position: relative;
+			z-index: 15;
+			display: flex;
+			flex-direction: row;
+			top: 0;
+			left: 0;
+			margin-top: 0;
+			margin-left: 4vw;
+		}
+		&_card {
+			color: white;
+			font-size: 16px;
+			line-height: 24px;
+			font-weight: bold;
+		}
+	}
 }
 
 // mobile version
@@ -120,7 +212,41 @@ input:visited {
 			justify-content: center;
 		}
 		&_city_list_container {
+			position: relative;
 			width: 70vw;
+			height: 160px;
+			top: 55vh;
+		}
+		&_weather {
+			&_cards::-webkit-scrollbar {
+				display: none;
+			}
+			&_cards {
+				top: 0;
+				left: 0;
+				margin-top: 0;
+				margin-left: 4vw;
+				max-width: 65vw;
+				&_right_arrow {
+					display: none;
+				}
+				&_left_arrow {
+					display: none;
+				}
+			}
+			&_card {
+				width: 40vw;
+				height: 35vh;
+				margin-right: 10vw;
+				margin-left: 10vw;
+
+				&_margin {
+					width: 1vw;
+					height: 4vw;
+					box-sizing: border-box;
+					flex-shrink: 0;
+				}
+			}
 		}
 	}
 
@@ -150,8 +276,11 @@ input:visited {
 			display: flex;
 		}
 		&_city_list_container {
+			position: relative;
 			width: 25vw;
-			left: 20vw;
+			height: 160px;
+			left: 19.5vw;
+			top: 53vh;
 		}
 		&_input {
 			display: flex;
@@ -159,6 +288,40 @@ input:visited {
 			margin-left: 5vw;
 			width: 25vw;
 			height: 48px;
+		}
+		&_weather {
+			&_cards::-webkit-scrollbar {
+				display: none;
+			}
+			&_cards {
+				top: 0;
+				left: 0;
+				margin-top: 0;
+				margin-left: 4vw;
+				max-width: 65vw;
+				&_right_arrow {
+					position: relative;
+					top: -18vh;
+					margin-left: 67vw;
+				}
+				&_left_arrow {
+					position: relative;
+					top: 9vh;
+					margin-left: 1vw;
+				}
+			}
+			&_card {
+				width: 18vw;
+				height: 30vh;
+				margin-right: 4vw;
+
+				&_margin {
+					width: 1vw;
+					height: 4vw;
+					box-sizing: border-box;
+					flex-shrink: 0;
+				}
+			}
 		}
 	}
 }
@@ -183,25 +346,48 @@ input:visited {
 			top: 0;
 		}
 		&_city_list_container {
-			margin-top: 12vh;
+			margin-top: 52vh;
 			margin-left: 6.5vw;
 			height: 160px;
 			width: 20.5vw;
 		}
 		&_weather {
+			&_cards::-webkit-scrollbar {
+				display: none;
+			}
 			&_cards {
 				position: relative;
 				z-index: 15;
 				display: flex;
 				flex-direction: row;
+
 				top: 0;
 				left: 0;
 				margin-top: 0;
 				margin-left: 4vw;
+
+				box-sizing: border-box;
+				max-width: 41vw;
+				overflow: auto;
+				padding-right: 2vw;
+				scroll-behavior: smooth;
+
+				&_right_arrow {
+					z-index: 200;
+					position: relative;
+					top: -19vh;
+					margin-left: 43vw;
+					cursor: pointer;
+				}
+				&_left_arrow {
+					z-index: 200;
+					position: relative;
+					top: 9vh;
+					margin-left: 1vw;
+					cursor: pointer;
+				}
 			}
 			&_card {
-				width: 50px;
-				height: 50px;
 				background-color: #373af5;
 				width: 10vw;
 				height: 30vh;
@@ -211,6 +397,13 @@ input:visited {
 				border-radius: 8px;
 				display: flex;
 				flex-direction: column;
+				flex-shrink: 0;
+				&_margin {
+					width: 1vw;
+					height: 4vw;
+					box-sizing: border-box;
+					flex-shrink: 0;
+				}
 			}
 		}
 	}

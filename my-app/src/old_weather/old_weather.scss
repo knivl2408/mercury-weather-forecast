@@ -46,16 +46,18 @@
 		left: 0;
 
 		.old_weather_city_list_container {
-			position: absolute;
 			background-color: #f8f8fa;
 			border-radius: 8px;
 			border: 2px solid rgba(128, 131, 164, 0.2);
-			left: 55vw;
+
 			box-sizing: border-box;
 		}
 	}
 	&_city_list.close {
 		display: none;
+	}
+	&_city_list_container {
+		overflow-y: auto;
 	}
 	&_city_list_container::-webkit-scrollbar {
 		width: 4px;
@@ -102,6 +104,9 @@ input {
 		}
 		&_city_list_container {
 			width: 70vw;
+			height: 160px;
+			position: relative;
+			top: 132vh;
 		}
 		&_inputs {
 			display: flex;
@@ -137,7 +142,11 @@ input {
 			top: 0;
 		}
 		&_city_list_container {
+			position: relative;
 			width: 25vw;
+			left: -16vw;
+			top: 120vh;
+			height: 160px;
 		}
 		&_inputs {
 			display: flex;
@@ -160,7 +169,7 @@ input {
 @media (min-width: 1111px) {
 	.old_weather {
 		&_container {
-			height: 55vh;
+			height: 60vh;
 		}
 		&_inputs {
 			display: flex;
@@ -174,8 +183,9 @@ input {
 			box-sizing: border-box;
 		}
 		&_city_list_container {
+			position: relative;
 			top: 54vh;
-			margin-left: 0.5vw;
+			margin-left: 55.5vw;
 			width: 18%;
 			height: 160px;
 			overflow-y: auto;

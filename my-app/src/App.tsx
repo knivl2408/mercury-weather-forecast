@@ -16,6 +16,9 @@ function App() {
 				<Week />
 				<OldWeather />
 			</div>
+			<div className="a_footer">
+				<div>C ЛЮБОВЬЮ ОТ MERCURY DEVELOPMENT</div>
+			</div>
 		</div>
 	);
 }
